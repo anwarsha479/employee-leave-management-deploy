@@ -1,9 +1,7 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { login } from "../services/auth.service";
 import { useAuth } from "../context/AuthContext";
-import keycloak from "../keycloak";
-import axios from "axios";
 import {
   Box,
   Card,
@@ -27,32 +25,9 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
   const { refreshUser } = useAuth();
-  useEffect(() => {
-    const handleKeycloakCallback = async () => {
-      const authenticated = await keycloak.init({
-        checkLoginIframe: false,
-      });
-
-      if (authenticated && keycloak.token) {
-        await axios.post(
-          `${import.meta.env.VITE_API_URL}/auth/keycloak-login`,
-          {
-            token: keycloak.token,
-          },
-          {
-            withCredentials: true,
-          },
-        );
-
-        await refreshUser();
-        navigate("/dashboard");
-      }
-    };
-
-    handleKeycloakCallback();
-  }, []);
 
   const handleLogin = async () => {
     try {
@@ -62,10 +37,6 @@ function LoginPage() {
     } catch (error) {
       alert("Invalid credentials");
     }
-  };
-
-  const handleKeycloakLogin = async () => {
-    await keycloak.login();
   };
 
   const handleClickShowPassword = () => {
@@ -108,6 +79,7 @@ function LoginPage() {
             >
               <LockOutlinedIcon sx={{ fontSize: 32 }} />
             </Avatar>
+
             <Typography
               component="h1"
               variant="h4"
@@ -122,6 +94,7 @@ function LoginPage() {
             >
               Leave Management System
             </Typography>
+
             <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
               Sign in to access your portal
             </Typography>
@@ -177,6 +150,7 @@ function LoginPage() {
                     },
                   }}
                 />
+
                 <TextField
                   margin="normal"
                   required
@@ -215,7 +189,10 @@ function LoginPage() {
                             aria-label="toggle password visibility"
                             onClick={handleClickShowPassword}
                             edge="end"
-                            sx={{ color: "rgba(255, 255, 255, 0.5)", mr: 0.5 }}
+                            sx={{
+                              color: "rgba(255, 255, 255, 0.5)",
+                              mr: 0.5,
+                            }}
                           >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
                           </IconButton>
@@ -224,8 +201,8 @@ function LoginPage() {
                     },
                   }}
                 />
+
                 <Button
-                  type="submit"
                   fullWidth
                   variant="contained"
                   size="large"
@@ -243,21 +220,6 @@ function LoginPage() {
                   Sign In
                 </Button>
 
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  size="large"
-                  onClick={handleKeycloakLogin}
-                  sx={{
-                    mt: 2,
-                    py: 1.5,
-                    fontSize: "1rem",
-                    fontWeight: 600,
-                  }}
-                >
-                  Login with Keycloak
-                </Button>
-
                 <Box sx={{ mt: 3, textAlign: "center" }}>
                   <Link
                     component={RouterLink}
@@ -266,7 +228,9 @@ function LoginPage() {
                     color="primary.light"
                     sx={{
                       textDecoration: "none",
-                      "&:hover": { textDecoration: "underline" },
+                      "&:hover": {
+                        textDecoration: "underline",
+                      },
                     }}
                   >
                     Forgot Password?

@@ -13,8 +13,6 @@ import {
 } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import { logout } from "../services/auth.service";
-import keycloak from "../keycloak";
-
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import PeopleIcon from "@mui/icons-material/People";
@@ -36,10 +34,7 @@ function Sidebar({ collapsed }: SidebarProps) {
   const handleLogout = async () => {
     try {
       await logout();
-
-      await keycloak.logout({
-        redirectUri: window.location.origin,
-      });
+      window.location.href = "/login";
     } catch (error) {
       console.error("Logout failed:", error);
     }
