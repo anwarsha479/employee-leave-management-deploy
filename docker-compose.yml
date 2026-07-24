@@ -1,0 +1,34 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: leave-management-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: anwar
+      POSTGRES_DB: employee-leave-management
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./Backend
+    container_name: leave-management-backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    env_file:
+      - ./Backend/.env
+
+  frontend:
+    build: ./Frontend
+    container_name: leave-management-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
