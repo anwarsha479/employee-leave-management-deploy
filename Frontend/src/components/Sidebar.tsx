@@ -1,4 +1,4 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import {
   Box,
   List,
@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import { logout } from "../services/auth.service";
+
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import PeopleIcon from "@mui/icons-material/People";
@@ -26,6 +27,7 @@ interface SidebarProps {
 
 function Sidebar({ collapsed }: SidebarProps) {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user } = useAuth();
 
   const email = user?.email ?? "";
@@ -34,7 +36,7 @@ function Sidebar({ collapsed }: SidebarProps) {
   const handleLogout = async () => {
     try {
       await logout();
-      window.location.href = "/login";
+      navigate("/login", { replace: true });
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -119,12 +121,14 @@ function Sidebar({ collapsed }: SidebarProps) {
         >
           {email ? email.charAt(0).toUpperCase() : "U"}
         </Avatar>
+
         {!collapsed && (
           <Box sx={{ minWidth: 0 }}>
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
               <Typography variant="subtitle2" noWrap sx={{ fontWeight: 700 }}>
                 {role}
               </Typography>
+
               <Chip
                 label={role === "ADMIN" ? "Admin" : "Staff"}
                 size="small"
@@ -137,6 +141,7 @@ function Sidebar({ collapsed }: SidebarProps) {
                 }}
               />
             </Box>
+
             <Typography
               variant="caption"
               color="text.secondary"
@@ -152,7 +157,7 @@ function Sidebar({ collapsed }: SidebarProps) {
         )}
       </Box>
 
-      {/* Menu List */}
+      {/* Menu */}
       <List
         sx={{
           p: 2,
@@ -166,6 +171,7 @@ function Sidebar({ collapsed }: SidebarProps) {
           .filter((item) => role && item.roles.includes(role))
           .map((item) => {
             const active = isActive(item.path);
+
             return (
               <ListItem key={item.text} disablePadding>
                 <ListItemButton
@@ -177,16 +183,18 @@ function Sidebar({ collapsed }: SidebarProps) {
                     px: collapsed ? 1.5 : 2,
                     justifyContent: collapsed ? "center" : "flex-start",
                     backgroundColor: active
-                      ? "rgba(99, 102, 241, 0.08)"
+                      ? "rgba(99,102,241,0.08)"
                       : "transparent",
                     color: active ? "primary.light" : "text.secondary",
                     borderLeft: active
                       ? "4px solid #6366f1"
                       : "4px solid transparent",
                     transition: "all 0.2s ease",
+
                     "&:hover": {
-                      backgroundColor: "rgba(255, 255, 255, 0.03)",
+                      backgroundColor: "rgba(255,255,255,0.03)",
                       color: "text.primary",
+
                       "& .MuiListItemIcon-root": {
                         color: "primary.light",
                       },
@@ -202,6 +210,7 @@ function Sidebar({ collapsed }: SidebarProps) {
                   >
                     {item.icon}
                   </ListItemIcon>
+
                   {!collapsed && (
                     <ListItemText
                       primary={
@@ -222,33 +231,41 @@ function Sidebar({ collapsed }: SidebarProps) {
           })}
       </List>
 
-      {/* Logout Action */}
-      <Box sx={{ p: 2, pb: 4, borderTop: "1px solid", borderColor: "divider" }}>
+      {/* Logout */}
+      <Box
+        sx={{
+          p: 2,
+          pb: 4,
+          borderTop: "1px solid",
+          borderColor: "divider",
+        }}
+      >
         <Button
           variant="contained"
+          fullWidth
           onClick={handleLogout}
           sx={{
-            backgroundColor: "rgba(230, 29, 29, 0.78)",
-            color: "#ecececff",
-            border: "1px solid rgba(239, 68, 68, 0.25)",
-            width: "100%",
+            backgroundColor: "rgba(230,29,29,0.78)",
+            color: "#ececec",
+            border: "1px solid rgba(239,68,68,0.25)",
             justifyContent: collapsed ? "center" : "flex-start",
             px: collapsed ? 0 : 2,
             py: 1.2,
             borderRadius: 2,
             boxShadow: "none",
-            transition: "all 0.2s ease-in-out",
+            transition: "all .2s",
+
             "&:hover": {
-              backgroundColor: "#ec2121ff",
-              color: "#ffffff",
-              boxShadow: "0 4px 12px rgba(239, 68, 68, 0.3)",
-              border: "1px solid #ef4444",
+              backgroundColor: "#ec2121",
+              color: "#fff",
+              boxShadow: "0 4px 12px rgba(239,68,68,.3)",
             },
           }}
         >
-          <LogoutIcon sx={{ mr: collapsed ? 0 : 1.5, fontSize: 20 }} />
+          <LogoutIcon sx={{ mr: collapsed ? 0 : 1.5 }} />
+
           {!collapsed && (
-            <Typography sx={{ fontSize: "0.9rem", fontWeight: 600 }}>
+            <Typography sx={{ fontWeight: 600 }}>
               Logout
             </Typography>
           )}
