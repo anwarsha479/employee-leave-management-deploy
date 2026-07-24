@@ -33,10 +33,13 @@ export class AuthController {
   ) {}
 
   private setAuthCookie(response: Response, accessToken: string) {
+    const isProduction =
+      this.configService.get<string>('NODE_ENV') === 'production';
+
     response.cookie('access_token', accessToken, {
       httpOnly: true,
-      secure: this.configService.get<string>('NODE_ENV') === 'production',
-      sameSite: 'lax',
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
       maxAge: 24 * 60 * 60 * 1000,
     });
   }
@@ -77,7 +80,14 @@ export class AuthController {
 
   @Post('logout')
   logout(@Res({ passthrough: true }) response: Response) {
-    response.clearCookie('access_token');
+    const isProduction =
+      this.configService.get<string>('NODE_ENV') === 'production';
+
+    response.clearCookie('access_token', {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
+    });
 
     return {
       message: 'Logout successful',
