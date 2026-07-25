@@ -13,6 +13,7 @@ import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { UsersService } from '../users/users.service';
 import { KeycloakService } from 'src/keycloak/keycloak.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class EmployeesService {
@@ -23,6 +24,7 @@ export class EmployeesService {
     private readonly departmentRepository: Repository<Department>,
     private readonly usersService: UsersService,
     private readonly keycloakService: KeycloakService,
+    private readonly configService: ConfigService,
   ) {}
 
   async create(createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
@@ -62,11 +64,13 @@ export class EmployeesService {
       email,
       password: defaultPassword,
     });
-    await this.keycloakService.createUser(
-      email,
-      defaultPassword,
-      createEmployeeDto.name,
-    );
+    if (this.configService.get('USE_KEYCLOAK') === 'true') {
+      await this.keycloakService.createUser(
+        email,
+        defaultPassword,
+        createEmployeeDto.name,
+      );
+    }
 
     try {
       const employee = this.employeeRepository.create({
@@ -241,11 +245,13 @@ export class EmployeesService {
       employee.department = department;
     }
 
-    await this.keycloakService.updateUser(
-      employee.email,
-      email ?? employee.email,
-      updateEmployeeDto.name ?? employee.name,
-    );
+    if (this.configService.get('USE_KEYCLOAK') === 'true') {
+      await this.keycloakService.updateUser(
+        employee.email,
+        email ?? employee.email,
+        updateEmployeeDto.name ?? employee.name,
+      );
+    }
 
     Object.assign(employee, {
       employeeCode: updateEmployeeDto.employeeCode ?? employee.employeeCode,
@@ -262,7 +268,9 @@ export class EmployeesService {
   async remove(id: string): Promise<void> {
     const employee = await this.findOne(id);
     const userId = employee.user?.id;
-    await this.keycloakService.deleteUser(employee.email);
+    if (this.configService.get('USE_KEYCLOAK') === 'true') {
+      await this.keycloakService.deleteUser(employee.email);
+    }
     await this.employeeRepository.remove(employee);
     if (userId) {
       await this.usersService.remove(userId);
