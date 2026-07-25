@@ -235,7 +235,7 @@ Employee-Leave-Management-System
 ```bash
 git clone https://github.com/anwarsha479/employee-leave-management-system.git
 
-cd employee-leave-management-deploy
+cd employee-leave-management-system
 ```
 
 ## Backend Setup
