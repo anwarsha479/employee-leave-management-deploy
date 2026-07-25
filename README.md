@@ -233,7 +233,7 @@ Employee-Leave-Management-System
 ## Clone the Repository
 
 ```bash
-git clone https://github.com/anwarsha479/employee-leave-management-deploy.git
+git clone https://github.com/anwarsha479/employee-leave-management-system.git
 
 cd employee-leave-management-deploy
 ```
