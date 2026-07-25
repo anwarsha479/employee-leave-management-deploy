@@ -1,12 +1,20 @@
 # Employee Leave Management System
 
-A full-stack **Employee Leave Management System** that streamlines employee leave requests, department management, and employee administration through a secure role-based authentication system.
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
+![NestJS](https://img.shields.io/badge/NestJS-E0234E?logo=nestjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?logo=jsonwebtokens&logoColor=white)
+![Material UI](https://img.shields.io/badge/Material_UI-007FFF?logo=mui&logoColor=white)
+![Render](https://img.shields.io/badge/Backend-Render-46E3B7?logo=render&logoColor=white)
+![Vercel](https://img.shields.io/badge/Frontend-Vercel-000000?logo=vercel&logoColor=white)
+![Neon](https://img.shields.io/badge/Database-Neon-00E699?logo=postgresql&logoColor=white)
 
-This project was built using **React.js**, **NestJS**, **PostgreSQL**, and **JWT Authentication**, and is deployed on **Vercel**, **Render**, and **Neon PostgreSQL**.
+A full stack Employee Leave Management System built using **React**, **NestJS**, **PostgreSQL**, and **TypeORM**. The application enables organizations to efficiently manage departments, employees, leave requests, and user authentication with secure role based access control.
 
 ---
 
-# 🚀 Live Demo
+# Live Demo
 
 **Frontend**
 
@@ -14,7 +22,7 @@ https://employee-leave-management-deploy-tau.vercel.app
 
 ---
 
-# 👤 Demo Credentials
+# Demo Credentials
 
 ## Admin
 
@@ -27,7 +35,7 @@ https://employee-leave-management-deploy-tau.vercel.app
 - Dashboard
 - Department Management
 - Employee Management
-- Leave Approval & Rejection
+- Leave Approval and Rejection
 - Profile Management
 
 ---
@@ -45,45 +53,69 @@ https://employee-leave-management-deploy-tau.vercel.app
 - View Leave History
 - Update Profile
 - Change Password
-- Forgot Password (OTP)
+- Forgot Password using OTP
 
 ---
 
-# ✨ Features
+# Features
 
 ## Authentication
 
 - JWT Authentication
-- Role-Based Access Control
+- Role Based Access Control
+- Forgot Password using OTP
+- Password Reset
+- Change Password
 - Secure Password Hashing using bcrypt
-- Forgot Password with OTP Verification
-- Password Change
 
 ## Admin
 
 - Dashboard
-- Department CRUD
-- Employee CRUD
-- Leave Approval & Rejection
-- Profile Management
+- Department CRUD Operations
+- Employee CRUD Operations
+- Leave Approval and Rejection
+- Employee Profile Management
 
 ## Employee
 
+- Dashboard
 - Apply Leave
-- View Leave Status
+- View Leave History
 - Update Profile
+- Upload Profile Image
 - Change Password
-- Forgot Password
 
 ---
 
-# 🛠 Tech Stack
+# Authentication Modes
+
+This project supports two authentication methods.
+
+## JWT Authentication
+
+The deployed demo uses JWT Authentication for a simple login experience.
+
+## Keycloak Single Sign-On
+
+Keycloak authentication is also supported.
+
+Enable it by setting:
+
+```env
+USE_KEYCLOAK=true
+```
+
+When enabled, users authenticate through Keycloak Single Sign-On.
+
+---
+
+# Tech Stack
 
 ## Frontend
 
-- React.js
+- React
 - TypeScript
-- Material UI (MUI)
+- Material UI
 - React Router
 - Axios
 
@@ -93,25 +125,33 @@ https://employee-leave-management-deploy-tau.vercel.app
 - TypeORM
 - JWT
 - bcrypt
+- Multer
 - Resend Email API
 
 ## Database
 
-- PostgreSQL (Neon)
+- PostgreSQL
+- Neon
 
 ## Deployment
 
-- Frontend → Vercel
-- Backend → Render
-- Database → Neon PostgreSQL
+- Frontend: Vercel
+- Backend: Render
+- Database: Neon PostgreSQL
 
 ---
 
-# 📸 Screenshots
+# Screenshots
 
-## Login Page
+## Login
 
 ![Login](screenshots/Login.png)
+
+---
+
+## Forgot Password
+
+![Forgot Password](screenshots/Forgot-Password.png)
 
 ---
 
@@ -123,13 +163,13 @@ https://employee-leave-management-deploy-tau.vercel.app
 
 ## Department Management
 
-![Department Management](screenshots/Department.png)
+![Department](screenshots/Department.png)
 
 ---
 
 ## Employee Management
 
-![Employee Management](screenshots/Employees.png)
+![Employees](screenshots/Employees.png)
 
 ---
 
@@ -157,85 +197,76 @@ https://employee-leave-management-deploy-tau.vercel.app
 
 ---
 
-## Forgot Password
+# Project Structure
 
-![Forgot Password](screenshots/Forgot-Password.png)
-
----
-
-# 📁 Project Structure
-
-```
-employee-leave-management-deploy
+```text
+Employee-Leave-Management-System
 │
 ├── Backend
 │   ├── src
-│   ├── package.json
-│   └── ...
+│   ├── uploads
+│   └── package.json
 │
 ├── Frontend
 │   ├── src
-│   ├── package.json
-│   └── ...
+│   ├── public
+│   └── package.json
 │
 ├── screenshots
 │   ├── Login.png
+│   ├── Forgot-Password.png
 │   ├── Admin-Dashboard.png
 │   ├── Department.png
 │   ├── Employees.png
 │   ├── Admin-Leave-Management.png
 │   ├── Employee-Dashboard.png
 │   ├── Employee-Leave-Management.png
-│   ├── Profile.png
-│   └── Forgot-Password.png
+│   └── Profile.png
 │
 └── README.md
 ```
 
 ---
 
-# ⚙️ Installation
+# Installation
 
-## Clone the repository
+## Clone the Repository
 
 ```bash
 git clone https://github.com/anwarsha479/employee-leave-management-deploy.git
-```
 
-Navigate into the project:
-
-```bash
 cd employee-leave-management-deploy
 ```
-
----
 
 ## Backend Setup
 
 ```bash
 cd Backend
+
 npm install
+
 npm run start:dev
 ```
-
----
 
 ## Frontend Setup
 
 ```bash
 cd Frontend
+
 npm install
+
 npm run dev
 ```
 
 ---
 
-# 🔐 Environment Variables
+# Environment Variables
 
-Configure the following environment variables for the backend:
+Create a `.env` file inside the **Backend** folder.
 
 ```env
 PORT=
+
 DB_HOST=
 DB_PORT=
 DB_USERNAME=
@@ -246,7 +277,7 @@ JWT_SECRET=
 
 RESEND_API_KEY=
 
-USE_KEYCLOAK=
+USE_KEYCLOAK=false
 
 KEYCLOAK_URL=
 KEYCLOAK_REALM=
@@ -256,37 +287,34 @@ KEYCLOAK_CLIENT_SECRET=
 
 ---
 
-# 🔒 Authentication
-
-This project uses:
-
-- JWT Authentication
-- Role-Based Authorization
-- bcrypt Password Hashing
-- OTP-based Password Reset
-
----
-
-# 🚀 Future Improvements
+# Future Improvements
 
 - Leave Balance Management
-- Email Notifications
-- Holiday Calendar
 - Attendance Management
+- Holiday Calendar
 - Dashboard Analytics
-- Employee Search Filters
+- Email Notifications
 - File Upload for Leave Documents
+- Advanced Search and Filtering
 
 ---
 
-# 👨‍💻 Author
+# Author
 
 **Anwarsha K**
 
-GitHub: https://github.com/anwarsha479
+GitHub
+
+https://github.com/anwarsha479
 
 ---
 
-# ⭐ Support
+# License
 
-If you found this project helpful, please consider giving it a **⭐ Star** on GitHub.
+This project is licensed under the MIT License.
+
+---
+
+# Support
+
+If you found this project helpful, please consider giving it a ⭐ on GitHub.
